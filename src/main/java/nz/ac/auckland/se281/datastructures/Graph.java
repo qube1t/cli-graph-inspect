@@ -1,5 +1,6 @@
 package nz.ac.auckland.se281.datastructures;
 
+import java.util.HashSet;
 // import java.util.ArrayList;
 // import java.util.Collection;
 // import java.util.Collections;
@@ -110,20 +111,27 @@ public class Graph<T extends Comparable<T>> {
     // TODO: Task 1.
     // bubbleSortEdges();
 
-    // ArrayList<ArrayList<T>> edgeGroupBySource = new
-    // ArrayList<ArrayList<T>>(verticies.length);
+    Set<T> roots = new HashSet<T>();
 
-    if (isEquivalence()) {
-      System.out.println("Equivalence");
+    if (!isEquivalence()) {
+      throw new UnsupportedOperationException();
     }
 
-    // System.out.println(edge.getDestination());
-    // System.out.println(edge.getSource());
-    // System.out.println();
+    for (Set<T> equivalenceClass : getEquivalenceClasses()) {
+      T lowest = null;
+      for (T vertex : equivalenceClass) {
+        if (lowest == null) {
+          lowest = vertex;
+        } else if (vertex.compareTo(lowest) < 0) {
+          lowest = vertex;
+        }
+      }
+      roots.add(lowest);
+    }
 
     // }
     // throw new UnsupportedOperationException();
-    return verticies;
+    return roots;
   }
 
   public boolean isReflexive() {
@@ -170,9 +178,51 @@ public class Graph<T extends Comparable<T>> {
     return false;
   }
 
+  public Set<Set<T>> getEquivalenceClasses() {
+
+    if (!isEquivalence()) {
+      throw new UnsupportedOperationException();
+    }
+
+    Set<T> done = new HashSet<T>();
+    Set<Set<T>> equivalenceClasses = new HashSet<Set<T>>();
+
+    for (Edge<T> edge : edges) {
+      if (done.contains(edge.getSource()) && done.contains(edge.getDestination())) {
+        continue;
+      }
+
+      Set<T> equivalenceClass = new HashSet<T>();
+      equivalenceClass.add(edge.getSource());
+      equivalenceClass.add(edge.getDestination());
+
+      for (Edge<T> _edge : edges) {
+        if (_edge.getSource().equals(edge.getSource()) && !_edge.getDestination().equals(edge.getDestination())) {
+          equivalenceClass.add(_edge.getDestination());
+        }
+      }
+
+      done.addAll(equivalenceClass);
+      done.add(edge.getSource());
+      done.add(edge.getDestination());
+      equivalenceClasses.add(equivalenceClass);
+    }
+
+    return equivalenceClasses;
+  }
+
   public Set<T> getEquivalenceClass(T vertex) {
+    Set<Set<T>> equivalenceClasses = getEquivalenceClasses();
+
+    for (Set<T> equivalenceClass : equivalenceClasses) {
+      if (equivalenceClass.contains(vertex)) {
+        return equivalenceClass;
+      }
+    }
+
+    return new HashSet<T>();
     // TODO: Task 1.
-    throw new UnsupportedOperationException();
+    // throw new UnsupportedOperationException();
   }
 
   public List<T> iterativeBreadthFirstSearch() {
