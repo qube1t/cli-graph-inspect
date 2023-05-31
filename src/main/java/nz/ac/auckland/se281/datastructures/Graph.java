@@ -316,16 +316,56 @@ public class Graph<T extends Comparable<T>> {
     throw new UnsupportedOperationException();
   }
 
+  public void breadthFirstSearch(List<T> visited, Queue<T> queue) {
+    T selectedNode = null;
+    boolean isVisited = true;
+
+    while (isVisited) {
+      selectedNode = queue.dequeue();
+
+      // if queue is empty before removeing, then get a new random
+      if (selectedNode == null) {
+        for (T vertex : verticies) {
+          if (!visited.contains(vertex)) {
+            selectedNode = vertex;
+            break;
+          }
+        }
+      }
+
+      isVisited = visited.contains(selectedNode);
+    }
+
+    visited.add(0, selectedNode);
+
+    for (Edge<T> edge : edges) {
+      if (edge.getSource() == edge.getDestination())
+        continue;
+
+      if (edge.getSource() == selectedNode) {
+        // System.out.println(edge);
+        // System.out.println(queue);
+        queue.enqueue(edge.getDestination());
+      } else if (edge.getDestination() == selectedNode) {
+        // System.out.println(edge);
+        // System.out.println(queue);
+        queue.enqueue(edge.getSource());
+      }
+    }
+
+    if (visited.size() < verticies.size()) {
+      breadthFirstSearch(visited, queue);
+    }
+
+  }
+
   public List<T> recursiveBreadthFirstSearch() {
     List<T> visited = new ArrayList<T>();
     Queue<T> queue = new nodeQueue<T>();
 
-    T selectedNode = null;
-    // get firstNode
-    for (T vertex : verticies) {
-      selectedNode = vertex;
-      break;
-    }
+    breadthFirstSearch(visited, queue);
+
+    Collections.sort(visited);
 
     return visited;
   }
