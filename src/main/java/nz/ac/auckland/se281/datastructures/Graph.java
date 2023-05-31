@@ -1,5 +1,7 @@
 package nz.ac.auckland.se281.datastructures;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 // import java.util.ArrayList;
 // import java.util.Collection;
@@ -111,6 +113,7 @@ public class Graph<T extends Comparable<T>> {
     // TODO: Task 1.
     // bubbleSortEdges();
 
+    // TODO MAKE THIS AN ARRAY !!!!
     Set<T> roots = new HashSet<T>();
 
     if (!isEquivalence()) {
@@ -132,10 +135,12 @@ public class Graph<T extends Comparable<T>> {
     // }
     // throw new UnsupportedOperationException();
     return roots;
+    // TODO return in order??
   }
 
   public boolean isReflexive() {
     // check reflexivity
+    // TODO make sure there are no ghost verticies
     for (T vertex : verticies) {
       if (!isNodeReflexive(vertex)) {
         return false;
@@ -226,8 +231,84 @@ public class Graph<T extends Comparable<T>> {
   }
 
   public List<T> iterativeBreadthFirstSearch() {
-    // TODO: Task 2.
-    throw new UnsupportedOperationException();
+
+    List<T> visited = new ArrayList<T>();
+    Queue<T> queue = new nodeQueue<T>();
+
+    T selectedNode = null;
+
+    // get firstNode
+    for (T vertex : verticies) {
+      selectedNode = vertex;
+      break;
+    }
+
+    int _b = 0;
+
+    while (visited.size() < verticies.size() && _b < 100) {
+      _b++;
+
+      boolean isVisited = visited.contains(selectedNode);
+
+      while (isVisited) {
+        selectedNode = queue.dequeue();
+
+        // if queue is empty before removeing, then get a new random
+        if (selectedNode == null) {
+          for (T vertex : verticies) {
+            if (!visited.contains(vertex)) {
+              selectedNode = vertex;
+              break;
+            }
+          }
+        }
+
+        isVisited = visited.contains(selectedNode);
+      }
+
+      visited.add(0, selectedNode);
+
+      // for (T visitedNode : visited) {
+      // if (selectedNode == visitedNode) {
+      // isVisited = true;
+      // }
+      // }
+
+      // System.out.println(selectedNode);
+      // System.out.println(visited);
+      // System.out.println(queue);
+      // System.out.println();
+
+      // add all adjacents to queue
+      for (Edge<T> edge : edges) {
+        if (edge.getSource() == edge.getDestination())
+          continue;
+
+        if (edge.getSource() == selectedNode) {
+          // System.out.println(edge);
+          // System.out.println(queue);
+          queue.enqueue(edge.getDestination());
+        } else if (edge.getDestination() == selectedNode) {
+          // System.out.println(edge);
+          // System.out.println(queue);
+          queue.enqueue(edge.getSource());
+        }
+      }
+
+      // selectedNode = queue.dequeue();
+
+      // if (selectedNode == null) {
+      // for (T vertex : verticies) {
+      // if (visited.contains(vertex)) {
+      // continue;
+      // }
+      // selectedNode = vertex;
+      // break;
+      // }
+      // }
+    }
+    Collections.sort(visited);
+    return visited;
   }
 
   public List<T> iterativeDepthFirstSearch() {
@@ -236,8 +317,17 @@ public class Graph<T extends Comparable<T>> {
   }
 
   public List<T> recursiveBreadthFirstSearch() {
-    // TODO: Task 3.
-    throw new UnsupportedOperationException();
+    List<T> visited = new ArrayList<T>();
+    Queue<T> queue = new nodeQueue<T>();
+
+    T selectedNode = null;
+    // get firstNode
+    for (T vertex : verticies) {
+      selectedNode = vertex;
+      break;
+    }
+
+    return visited;
   }
 
   public List<T> recursiveDepthFirstSearch() {

@@ -3,11 +3,12 @@ package nz.ac.auckland.se281.datastructures;
 /**
  * An edge in a graph that connects two verticies.
  *
- * <p>You must NOT change the signature of the constructor of this class.
+ * <p>
+ * You must NOT change the signature of the constructor of this class.
  *
  * @param <T> The type of each vertex.
  */
-public class Edge<T>{
+public class Edge<T> {
   private T source;
   private T destination;
 
@@ -24,7 +25,11 @@ public class Edge<T>{
     return destination;
   }
 
-  public boolean equals(T s, T d){
+  public boolean equals(T s, T d) {
     return (s.equals(source) && d.equals(destination));
+  }
+
+  public String toString() {
+    return getSource() + "->" + getDestination();
   }
 }
