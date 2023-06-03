@@ -312,7 +312,9 @@ public class Graph<T extends Comparable<T>> {
   }
 
   public List<T> iterativeDepthFirstSearch() {
-    // TODO: Task 2.
+    List<T> visited = new ArrayList<T>();
+    Stack<T> stack = new nodeStack<T>();
+
     throw new UnsupportedOperationException();
   }
 
@@ -346,10 +348,10 @@ public class Graph<T extends Comparable<T>> {
         // System.out.println(edge);
         // System.out.println(queue);
         queue.enqueue(edge.getDestination());
-      } else if (edge.getDestination() == selectedNode) {
-        // System.out.println(edge);
-        // System.out.println(queue);
-        queue.enqueue(edge.getSource());
+        // } else if (edge.getDestination() == selectedNode) {
+        // // System.out.println(edge);
+        // // System.out.println(queue);
+        // queue.enqueue(edge.getSource());
       }
     }
 
@@ -370,8 +372,64 @@ public class Graph<T extends Comparable<T>> {
     return visited;
   }
 
+  private void depthFirstSearch(List<T> visited, Stack<T> stack) {
+    T selectedNode = null;
+    boolean isVisited = true;
+
+    while (isVisited) {
+      selectedNode = stack.pop();
+
+      // if queue is empty before removeing, then get a new random
+      if (selectedNode == null) {
+        for (T vertex : verticies) {
+          if (!visited.contains(vertex)) {
+            selectedNode = vertex;
+            break;
+          }
+        }
+      }
+
+      isVisited = visited.contains(selectedNode);
+    }
+
+    System.out.println(selectedNode);
+
+    visited.add(0, selectedNode);
+
+    for (Edge<T> edge : edges) {
+      if (edge.getSource() == edge.getDestination())
+        continue;
+
+      if (edge.getSource() == selectedNode) {
+        System.out.println(stack);
+        System.out.println(edge);
+        stack.push(edge.getDestination());
+        // } else if (edge.getDestination() == selectedNode) {
+        // System.out.println(stack);
+        // System.out.println(edge);
+        // stack.push(edge.getSource());
+      }
+    }
+
+    System.out.println();
+
+    if (visited.size() < verticies.size()) {
+      System.out.println(stack);
+      System.out.println();
+      depthFirstSearch(visited, stack);
+    }
+
+  }
+
   public List<T> recursiveDepthFirstSearch() {
-    // TODO: Task 3.
-    throw new UnsupportedOperationException();
+    List<T> visited = new ArrayList<T>();
+    Stack<T> stack = new nodeStack<T>();
+
+    depthFirstSearch(visited, stack);
+
+    Collections.sort(visited);
+
+    return visited;
+
   }
 }
