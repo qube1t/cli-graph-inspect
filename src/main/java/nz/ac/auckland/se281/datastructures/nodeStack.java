@@ -1,39 +1,61 @@
 package nz.ac.auckland.se281.datastructures;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class nodeStack<T> implements Stack<T> {
-    List<T> stack = new ArrayList<T>();
+    // List<T> stack = new ArrayList<T>();
+    Node<T> head = null;
+    Node<T> tail = null;
 
     @Override
     public void push(T item) {
-        stack.add(item);
+        if (head == null) {
+            head = new Node<T>(item);
+            return;
+        }
+
     }
 
     @Override
     public T pop() {
-
-        if (stack.size() == 0) {
+        if (tail == null) {
             return null;
         }
 
-        return stack.remove(stack.size() - 1);
+        T temp = tail.getData();
+        tail = tail.getPrev();
+        tail.setNext(null);
+        return temp;
     }
 
     @Override
     public boolean isEmpty() {
-        return stack.isEmpty();
+        return head == null;
     }
 
     @Override
     public int size() {
-        return stack.size();
+        Node<T> temp = head;
+        int stack_size = 0;
+        while (temp != null) {
+            stack_size++;
+            temp = temp.getNext();
+        }
+
+        return stack_size;
     }
 
     @Override
     public String toString() {
-        return stack.toString();
+        Node<T> temp = head;
+        StringBuilder str = new StringBuilder();
+
+        str.append("[");
+        while (temp != null) {
+            str.append(temp.getData());
+            str.append(", ");
+            temp = temp.getNext();
+        }
+
+        return str.toString();
     }
 
 }
