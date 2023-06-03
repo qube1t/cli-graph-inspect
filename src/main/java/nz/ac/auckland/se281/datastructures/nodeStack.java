@@ -9,9 +9,14 @@ public class nodeStack<T> implements Stack<T> {
     public void push(T item) {
         if (head == null) {
             head = new Node<T>(item);
+            tail = head;
             return;
         }
 
+        Node<T> newitem = new Node<T>(item);
+        newitem.setPrev(tail);
+        tail.setNext(newitem);
+        tail = newitem;
     }
 
     @Override
@@ -54,6 +59,7 @@ public class nodeStack<T> implements Stack<T> {
             str.append(", ");
             temp = temp.getNext();
         }
+        str.append("]");
 
         return str.toString();
     }
