@@ -4,51 +4,67 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class nodeQueue<T> implements Queue<T> {
-    List<T> queue = new ArrayList<T>();
+    // List<T> queue = new ArrayList<T>();
+    Node<T> head = null;
+    Node<T> tail = null;
 
     @Override
     public void enqueue(T item) {
-        if (queue.size() == 0) {
-            queue.add(item);
+        if (head == null) {
+            head = new Node<T>(item);
+            tail = head;
             return;
         }
 
-        T tempLast = queue.get(queue.size() - 1);
-
-        for (int i = queue.size() - 1; i > 0; i--) {
-            queue.set(i, queue.get(i - 1));
-        }
-
-        queue.add(tempLast);
-        queue.add(0, item);
+        Node<T> newitem = new Node<T>(item);
+        newitem.setPrev(tail);
+        tail.setNext(newitem);
+        tail = newitem;
     }
 
     @Override
     public T dequeue() {
-        if (queue.size() == 0) {
+        if (head == null) {
             return null;
         }
-        T tempLast = queue.get(queue.size() - 1);
-        queue.remove(queue.size() - 1);
 
-        return tempLast;
+        T temp = head.getData();
+        head = head.getNext();
+        head.setPrev(null);
+        return temp;
     }
 
     @Override
     public boolean isEmpty() {
-        if (queue.size() == 0)
-            return true;
-        return false;
+        return head == null;
     }
 
     @Override
     public int size() {
-        return queue.size();
+        Node<T> temp = head;
+        int queue_size = 0;
+        while (temp != null) {
+            queue_size++;
+            temp = temp.getNext();
+        }
+
+        return queue_size;
     }
 
     @Override
     public String toString() {
-        return queue.toString();
+        Node<T> temp = head;
+        StringBuilder str = new StringBuilder();
+
+        str.append("[");
+        while (temp != null) {
+            str.append(temp.getData());
+            str.append(", ");
+            temp = temp.getNext();
+        }
+        str.append("]");
+
+        return str.toString();
 
     }
 
