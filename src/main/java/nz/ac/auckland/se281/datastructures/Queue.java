@@ -5,7 +5,7 @@ public interface Queue<T> {
 
     public T dequeue();
 
-    public boolean isEmpty();
+    public abstract boolean isEmpty();
 
-    public int size();
+    public abstract int size();
 }

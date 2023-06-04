@@ -1,23 +1,23 @@
 package nz.ac.auckland.se281.datastructures;
 
-public class nodeStack<T> implements Stack<T> {
+public class nodeStack<T> extends LinkedList<T> implements Stack<T> {
     // List<T> stack = new ArrayList<T>();
     Node<T> head = null;
     Node<T> tail = null;
 
-    @Override
-    public void push(T item) {
-        if (head == null) {
-            head = new Node<T>(item);
-            tail = head;
-            return;
-        }
+    // @Override
+    // public void push(T item) {
+    // if (head == null) {
+    // head = new Node<T>(item);
+    // tail = head;
+    // return;
+    // }
 
-        Node<T> newitem = new Node<T>(item);
-        newitem.setPrev(tail);
-        tail.setNext(newitem);
-        tail = newitem;
-    }
+    // Node<T> newitem = new Node<T>(item);
+    // newitem.setPrev(tail);
+    // tail.setNext(newitem);
+    // tail = newitem;
+    // }
 
     @Override
     public T pop() {
@@ -46,22 +46,6 @@ public class nodeStack<T> implements Stack<T> {
         }
 
         return stack_size;
-    }
-
-    @Override
-    public String toString() {
-        Node<T> temp = head;
-        StringBuilder str = new StringBuilder();
-
-        str.append("[");
-        while (temp != null) {
-            str.append(temp.getData());
-            str.append(", ");
-            temp = temp.getNext();
-        }
-        str.append("]");
-
-        return str.toString();
     }
 
 }

@@ -403,11 +403,7 @@ public class Graph<T extends Comparable<T>> {
       if (edge.getSource() == selectedNode) {
         System.out.println(stack);
         System.out.println(edge);
-        stack.push(edge.getDestination());
-        // } else if (edge.getDestination() == selectedNode) {
-        // System.out.println(stack);
-        // System.out.println(edge);
-        // stack.push(edge.getSource());
+        stack.append(edge.getDestination());
       }
     }
 
