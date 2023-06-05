@@ -1,9 +1,9 @@
 package nz.ac.auckland.se281.datastructures;
 
 public class Node<T> {
-  T data;
-  Node<T> next = null;
-  Node<T> prev = null;
+  private T data;
+  private Node<T> next = null;
+  private Node<T> prev = null;
 
   public Node(T data) {
     this.data = data;

@@ -52,8 +52,6 @@ public class Graph<T extends Comparable<T>> {
     this.edges = edges_arraylist;
     this.verticies = verticies_arraylist;
 
-    // Collections.sort(this.verticies);
-
   }
 
   /**
@@ -154,14 +152,19 @@ public class Graph<T extends Comparable<T>> {
    * @return Set of roots of the graph.
    */
   public TreeSet<T> getRoots() {
+
+    // create a set of roots with comparator
     TreeSet<T> roots = new TreeSet<T>(new Comparator<T>() {
       @Override
       public int compare(T arg0, T arg1) {
         return ((Integer) Integer.parseInt((String) arg0)).compareTo(Integer.parseInt((String) arg1));
       }
     });
+
+    // add all verticies with no in degree
     roots.addAll(getNoInDegreeVerticies());
 
+    // add lowest vertex from each equivalence class
     for (Set<T> equivalenceClass : getEquivalenceClasses()) {
       T lowest = null;
       for (T vertex : equivalenceClass) {
@@ -242,7 +245,6 @@ public class Graph<T extends Comparable<T>> {
       }
     }
     return true;
-
   }
 
   /**
@@ -281,6 +283,7 @@ public class Graph<T extends Comparable<T>> {
         continue;
       }
 
+      // create a set of equivalence class with comparator
       TreeSet<T> equivalenceClass = new TreeSet<T>(new Comparator<T>() {
         @Override
         public int compare(T arg0, T arg1) {
@@ -291,6 +294,7 @@ public class Graph<T extends Comparable<T>> {
       equivalenceClass.add(edge.getSource());
       equivalenceClass.add(edge.getDestination());
 
+      // add destination of all edges with the given source
       for (Edge<T> _edge : edges) {
         if (_edge.getSource().equals(edge.getSource()) && !_edge.getDestination().equals(edge.getDestination())) {
           equivalenceClass.add(_edge.getDestination());
@@ -298,6 +302,7 @@ public class Graph<T extends Comparable<T>> {
       }
 
       done.addAll(equivalenceClass);
+      // TODO is adding needed
       done.add(edge.getSource());
       done.add(edge.getDestination());
       equivalenceClasses.add(equivalenceClass);
@@ -383,6 +388,7 @@ public class Graph<T extends Comparable<T>> {
    * 
    * @return List of the visited verticies in the order they were visited.
    */
+
   public List<T> iterativeDepthFirstSearch() {
     List<T> visited = new ArrayList<T>();
     Stack<T> stack = new nodeStack<T>();
@@ -442,6 +448,7 @@ public class Graph<T extends Comparable<T>> {
    * @params visited List of visited verticies.
    * @params queue Queue of verticies to visit.
    */
+
   public void breadthFirstSearch(List<T> visited, Queue<T> queue) {
     T selectedNode = null;
     boolean isVisited = true;
@@ -482,6 +489,7 @@ public class Graph<T extends Comparable<T>> {
    * 
    * @return List of the visited verticies in the order they were visited.
    */
+
   public List<T> recursiveBreadthFirstSearch() {
     List<T> visited = new ArrayList<T>();
     Queue<T> queue = new nodeQueue<T>();
@@ -499,6 +507,7 @@ public class Graph<T extends Comparable<T>> {
    * @params visited List of visited verticies.
    * @params stack Stack of verticies to visit.
    */
+
   private void depthFirstSearch(List<T> visited, Stack<T> stack) {
     T selectedNode = null;
     boolean isVisited = true;
@@ -536,6 +545,7 @@ public class Graph<T extends Comparable<T>> {
 
     Collections.reverse(edges);
 
+    // if not all verticies have been visited, then continue
     if (visited.size() < verticies.size()) {
       depthFirstSearch(visited, stack);
     }
@@ -547,6 +557,7 @@ public class Graph<T extends Comparable<T>> {
    * 
    * @return List of the visited verticies in the order they were visited.
    */
+
   public List<T> recursiveDepthFirstSearch() {
     List<T> visited = new ArrayList<T>();
     Stack<T> stack = new nodeStack<T>();
