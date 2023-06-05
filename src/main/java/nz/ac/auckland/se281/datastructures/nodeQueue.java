@@ -15,6 +15,7 @@ public class nodeQueue<T> extends LinkedList<T> implements Queue<T> {
 
     @Override
     public T dequeue() {
+        // empty queue returns null
         if (head == null) {
             return null;
         }

@@ -2,6 +2,7 @@ package nz.ac.auckland.se281.datastructures;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashSet;
 // import java.util.ArrayList;
 // import java.util.Collection;
@@ -19,42 +20,41 @@ import java.util.Set;
  * @param <T> The type of each vertex, that have a total ordering.
  */
 public class Graph<T extends Comparable<T>> {
-  private Set<Edge<T>> edges;
-  private Set<T> verticies;
+  // private Set<Edge<T>> edges;
+  // private Set<T> verticies;
+  private ArrayList<T> verticies;
+  private ArrayList<Edge<T>> edges;
 
   public Graph(Set<T> verticies, Set<Edge<T>> edges) {
+
+    // T[] verticies_array = verticies.toArray((T[]) new Object[verticies.size()]);
+    ArrayList<T> verticies_arraylist = new ArrayList<T>(verticies);
+    ArrayList<Edge<T>> edges_arraylist = new ArrayList<Edge<T>>(edges);
     // edges.toArray(this.edges);
     // verticies.toArray(this.verticies);
 
-    this.edges = edges;
-    this.verticies = verticies;
+    Collections.sort(edges_arraylist, new Comparator<Edge<T>>() {
+      @Override
+      public int compare(Edge<T> arg0, Edge<T> arg1) {
+        int c;
+
+        int s1 = (arg0.getSource()).compareTo(arg1.getSource());
+
+        c = arg0.getSource().compareTo(arg1.getSource());
+        if (c == 0)
+          c = arg0.getDestination().compareTo(arg1.getDestination());
+        return c;
+      }
+    });
+    System.out.println(verticies_arraylist);
+    System.out.println(edges_arraylist);
+
+    this.edges = edges_arraylist;
+    this.verticies = verticies_arraylist;
+
     // Collections.sort(this.verticies);
 
   }
-
-  // private void bubbleSortEdges() {
-  // ArrayList<Edge<T>> edges_array = new ArrayList<Edge<T>>(edges.size());
-  // for (Edge<T> edge : edges) {
-  // edges_array.add(edge);
-  // }
-
-  // // System.out.println(edges_array);
-
-  // for (Object edge : edges_array) {
-  // System.out.println(((Edge<T>)edge).getDestination());
-  // }
-
-  // // for (int i = 0; i < edges_array.size() - 1; i++) {
-  // // for (int j = 0; j < edges_array.size() - i - 1; j++) {
-  // // if (edges_array[j].getDestination().compareTo(edges_array[j +
-  // 1]).getDestination()) > 0) {
-  // // Edge<T> temp = edges[j];
-  // // edges.set(j, edges.get(j + 1));
-  // // edges.set(j + 1, temp);
-  // // }
-  // // }
-  // // }
-  // }
 
   private boolean isNodeReflexive(T vertex) {
     for (Edge<T> edge : edges) {
@@ -97,10 +97,7 @@ public class Graph<T extends Comparable<T>> {
         // check transitivity
         for (Edge<T> __edge : edges) {
           if (__edge.getSource().equals(edge.getSource()) && __edge.getDestination().equals(_edge.getDestination())) {
-            // System.out.println(edge.getSource() + " -> " + edge.getDestination());
-            // System.out.println(_edge.getSource() + " -> " + _edge.getDestination());
-            // System.out.println(__edge.getSource() + " -> " + __edge.getDestination());
-            // System.out.println();
+
             return true;
           }
         }
@@ -226,8 +223,6 @@ public class Graph<T extends Comparable<T>> {
     }
 
     return new HashSet<T>();
-    // TODO: Task 1.
-    // throw new UnsupportedOperationException();
   }
 
   public List<T> iterativeBreadthFirstSearch() {
@@ -235,21 +230,15 @@ public class Graph<T extends Comparable<T>> {
     List<T> visited = new ArrayList<T>();
     Queue<T> queue = new nodeQueue<T>();
 
-    T selectedNode = null;
+    // select a random node
+    T selectedNode = verticies.get(0);
 
-    // get firstNode
-    for (T vertex : verticies) {
-      selectedNode = vertex;
-      break;
-    }
+    while (visited.size() < verticies.size()) {
 
-    int _b = 0;
-
-    while (visited.size() < verticies.size() && _b < 100) {
-      _b++;
-
+      // checks if selectedNode has been visited
       boolean isVisited = visited.contains(selectedNode);
 
+      // if selectedNode has been visited, get a new unvisited node
       while (isVisited) {
         selectedNode = queue.dequeue();
 
@@ -266,48 +255,21 @@ public class Graph<T extends Comparable<T>> {
         isVisited = visited.contains(selectedNode);
       }
 
-      visited.add(0, selectedNode);
-
-      // for (T visitedNode : visited) {
-      // if (selectedNode == visitedNode) {
-      // isVisited = true;
-      // }
-      // }
-
-      // System.out.println(selectedNode);
-      // System.out.println(visited);
-      // System.out.println(queue);
-      // System.out.println();
+      // add selectedNode to visited
+      visited.add(selectedNode);
 
       // add all adjacents to queue
       for (Edge<T> edge : edges) {
+        // ignore self loops
         if (edge.getSource() == edge.getDestination())
           continue;
 
+        // add adjacent to queue
         if (edge.getSource() == selectedNode) {
-          // System.out.println(edge);
-          // System.out.println(queue);
           queue.enqueue(edge.getDestination());
-        } else if (edge.getDestination() == selectedNode) {
-          // System.out.println(edge);
-          // System.out.println(queue);
-          queue.enqueue(edge.getSource());
         }
       }
-
-      // selectedNode = queue.dequeue();
-
-      // if (selectedNode == null) {
-      // for (T vertex : verticies) {
-      // if (visited.contains(vertex)) {
-      // continue;
-      // }
-      // selectedNode = vertex;
-      // break;
-      // }
-      // }
     }
-    Collections.sort(visited);
     return visited;
   }
 
@@ -367,7 +329,7 @@ public class Graph<T extends Comparable<T>> {
 
     breadthFirstSearch(visited, queue);
 
-    Collections.sort(visited);
+    // Collections.sort(visited);
 
     return visited;
   }
@@ -423,7 +385,7 @@ public class Graph<T extends Comparable<T>> {
 
     depthFirstSearch(visited, stack);
 
-    Collections.sort(visited);
+    // Collections.sort(visited);
 
     return visited;
 
