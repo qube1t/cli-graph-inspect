@@ -4,6 +4,7 @@ public class NodeStack<T> extends LinkedList<T> implements Stack<T> {
 
   @Override
   public T pop() {
+    // call parent removeLast method
     return removeLast();
   }
 
@@ -16,6 +17,8 @@ public class NodeStack<T> extends LinkedList<T> implements Stack<T> {
   public int size() {
     Node<T> temp = head;
     int stackSize = 0;
+
+    // iterate through the stack for size
     while (temp != null) {
       stackSize++;
       temp = temp.getNext();
