@@ -1,12 +1,12 @@
 package nz.ac.auckland.se281.datastructures;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Set;
 import java.util.HashSet;
 import java.util.TreeSet;
 import java.util.List;
-import java.util.Set;
+import java.util.ArrayList;
 
 /**
  * A graph that is composed of a set of verticies and edges.
@@ -77,8 +77,8 @@ public class Graph<T extends Comparable<T>> {
    */
 
   private boolean doesEdgeSymmetryExist(Edge<T> edge) {
-    for (Edge<T> _edge : edges) {
-      if (_edge.getSource().equals(edge.getDestination()) && _edge.getDestination().equals(edge.getSource())) {
+    for (Edge<T> edge_ : edges) {
+      if (edge_.getSource().equals(edge.getDestination()) && edge_.getDestination().equals(edge.getSource())) {
         return true;
       }
     }
@@ -97,20 +97,20 @@ public class Graph<T extends Comparable<T>> {
       return true;
     }
 
-    for (Edge<T> _edge : edges) {
+    for (Edge<T> edge_ : edges) {
 
       // check if the edge is the same
-      if (_edge.getSource().equals(edge.getSource()) &&
-          _edge.getDestination().equals(edge.getDestination()))
+      if (edge_.getSource().equals(edge.getSource()) &&
+          edge_.getDestination().equals(edge.getDestination()))
         continue;
 
       // check if a case requiring transitivity exists
-      if (_edge.getSource().equals(edge.getDestination()) &&
-          !_edge.getDestination().equals(edge.getSource())) {
+      if (edge_.getSource().equals(edge.getDestination()) &&
+          !edge_.getDestination().equals(edge.getSource())) {
 
         // check transitivity
-        for (Edge<T> __edge : edges) {
-          if (__edge.getSource().equals(edge.getSource()) && __edge.getDestination().equals(_edge.getDestination())) {
+        for (Edge<T> edge__ : edges) {
+          if (edge__.getSource().equals(edge.getSource()) && edge__.getDestination().equals(edge_.getDestination())) {
             return true;
           }
         }
@@ -236,8 +236,8 @@ public class Graph<T extends Comparable<T>> {
   public boolean isAntiSymmetric() {
     // check anti-symmetry
     for (Edge<T> edge : edges) {
-      for (Edge<T> _edge : edges) {
-        if (edge.getSource().equals(_edge.getDestination()) && edge.getDestination().equals(_edge.getSource())) {
+      for (Edge<T> edge_ : edges) {
+        if (edge.getSource().equals(edge_.getDestination()) && edge.getDestination().equals(edge_.getSource())) {
           if (!edge.getSource().equals(edge.getDestination())) {
             return false;
           }
@@ -295,9 +295,9 @@ public class Graph<T extends Comparable<T>> {
       equivalenceClass.add(edge.getDestination());
 
       // add destination of all edges with the given source
-      for (Edge<T> _edge : edges) {
-        if (_edge.getSource().equals(edge.getSource()) && !_edge.getDestination().equals(edge.getDestination())) {
-          equivalenceClass.add(_edge.getDestination());
+      for (Edge<T> edge_ : edges) {
+        if (edge_.getSource().equals(edge.getSource()) && !edge_.getDestination().equals(edge.getDestination())) {
+          equivalenceClass.add(edge_.getDestination());
         }
       }
 
@@ -338,7 +338,7 @@ public class Graph<T extends Comparable<T>> {
   public List<T> iterativeBreadthFirstSearch() {
 
     List<T> visited = new ArrayList<T>();
-    Queue<T> queue = new nodeQueue<T>();
+    Queue<T> queue = new NodeQueue<T>();
 
     // select a random node
     T selectedNode = getRoots().size() == 0 ? verticies.get(0) : ((TreeSet<T>) getRoots()).first();
@@ -391,7 +391,7 @@ public class Graph<T extends Comparable<T>> {
 
   public List<T> iterativeDepthFirstSearch() {
     List<T> visited = new ArrayList<T>();
-    Stack<T> stack = new nodeStack<T>();
+    Stack<T> stack = new NodeStack<T>();
 
     // select a random node
     T selectedNode = getRoots().size() == 0 ? verticies.get(0) : ((TreeSet<T>) getRoots()).first();
@@ -492,7 +492,7 @@ public class Graph<T extends Comparable<T>> {
 
   public List<T> recursiveBreadthFirstSearch() {
     List<T> visited = new ArrayList<T>();
-    Queue<T> queue = new nodeQueue<T>();
+    Queue<T> queue = new NodeQueue<T>();
 
     queue.enqueue(getRoots().size() == 0 ? verticies.get(0) : (getRoots()).first());
 
@@ -560,7 +560,7 @@ public class Graph<T extends Comparable<T>> {
 
   public List<T> recursiveDepthFirstSearch() {
     List<T> visited = new ArrayList<T>();
-    Stack<T> stack = new nodeStack<T>();
+    Stack<T> stack = new NodeStack<T>();
 
     stack.append(getRoots().size() == 0 ? verticies.get(0) : ((TreeSet<T>) getRoots()).first());
 

@@ -1,6 +1,6 @@
 package nz.ac.auckland.se281.datastructures;
 
-public class nodeQueue<T> extends LinkedList<T> implements Queue<T> {
+public class NodeQueue<T> extends LinkedList<T> implements Queue<T> {
 
   @Override
   public void enqueue(T item) {

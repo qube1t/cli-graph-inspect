@@ -1,6 +1,6 @@
 package nz.ac.auckland.se281.datastructures;
 
-public class nodeStack<T> extends LinkedList<T> implements Stack<T> {
+public class NodeStack<T> extends LinkedList<T> implements Stack<T> {
 
   @Override
   public T pop() {
