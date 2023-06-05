@@ -17,6 +17,7 @@ import java.util.ArrayList;
  *
  * @param <T> The type of each vertex, that have a total ordering.
  */
+
 public class Graph<T extends Comparable<T>> {
   private ArrayList<T> verticies;
   private ArrayList<Edge<T>> edges;
@@ -60,6 +61,7 @@ public class Graph<T extends Comparable<T>> {
    * @param vertex to check has a reflexive relationship.
    * @return Boolean showing reflexivity of the node.
    */
+
   private boolean isNodeReflexive(T vertex) {
     for (Edge<T> edge : edges) {
       if (edge.getSource().equals(vertex) && edge.getDestination().equals(vertex)) {
