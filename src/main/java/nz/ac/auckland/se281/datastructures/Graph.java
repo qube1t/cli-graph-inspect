@@ -266,8 +266,10 @@ public class Graph<T extends Comparable<T>> {
   /**
    * Get set of equivalence classes of the graph.
    * 
+   
    *@return TreeSet of equivalence classes of the graph sorted numerically.
    */
+  
   public TreeSet<TreeSet<T>> getEquivalenceClasses() {
 
     Set<T> done = new HashSet<T>();
@@ -320,6 +322,7 @@ public class Graph<T extends Comparable<T>> {
    * 
    * @param vertex
    *               Vertex to get equivalence class of.
+   
    *@return Set of equivalence class of the vertex.
    */
   public Set<T> getEquivalenceClass(T vertex) {
@@ -336,7 +339,7 @@ public class Graph<T extends Comparable<T>> {
 
   /**
    * Perform iterative breadth first search on the graph.
-   * 
+    
    *@return List of the visited verticies in the order they were visited.
    */
   public List<T> iterativeBreadthFirstSearch() {
@@ -390,7 +393,7 @@ public class Graph<T extends Comparable<T>> {
 
   /**
    * Perform iterative depth first search on the graph.
-   * 
+    
    *@return List of the visited verticies in the order they were visited.
    */
 
@@ -449,8 +452,9 @@ public class Graph<T extends Comparable<T>> {
 
   /**
    * Perform recursive depth first search on the graph.
-   * 
+    
    *@params visited List of visited verticies.
+
    *@params queue Queue of verticies to visit.
    */
 
@@ -491,7 +495,7 @@ public class Graph<T extends Comparable<T>> {
 
   /**
    * Initiate recursive breadth first search on the graph.
-   * 
+    
    * @return List of the visited verticies in the order they were visited.
    */
 
@@ -508,8 +512,9 @@ public class Graph<T extends Comparable<T>> {
 
   /**
    * Perform recursive depth first search on the graph.
-   * 
+    
    *@params visited List of visited verticies.
+
    *@params stack Stack of verticies to visit.
    */
 
@@ -559,7 +564,7 @@ public class Graph<T extends Comparable<T>> {
 
   /**
    * Initiate recursive depth first search on the graph.
-   * 
+    
    *@return List of the visited verticies in the order they were visited.
    */
 
