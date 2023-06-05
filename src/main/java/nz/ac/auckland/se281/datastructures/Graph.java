@@ -5,12 +5,8 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.TreeSet;
-// import java.util.ArrayList;
-// import java.util.Collection;
-// import java.util.Collections;
 import java.util.List;
 import java.util.Set;
-import java.util.TreeSet;
 
 /**
  * A graph that is composed of a set of verticies and edges.
@@ -22,14 +18,11 @@ import java.util.TreeSet;
  * @param <T> The type of each vertex, that have a total ordering.
  */
 public class Graph<T extends Comparable<T>> {
-  // private Set<Edge<T>> edges;
-  // private Set<T> verticies;
   private ArrayList<T> verticies;
   private ArrayList<Edge<T>> edges;
 
   public Graph(Set<T> verticies, Set<Edge<T>> edges) {
 
-    // T[] verticies_array = verticies.toArray((T[]) new Object[verticies.size()]);
     ArrayList<T> verticies_arraylist = new ArrayList<T>(verticies);
     ArrayList<Edge<T>> edges_arraylist = new ArrayList<Edge<T>>(edges);
 
@@ -91,9 +84,9 @@ public class Graph<T extends Comparable<T>> {
 
     for (Edge<T> _edge : edges) {
       // excuse self loops
-      if (_edge.getSource().equals(_edge.getDestination())) {
-        continue;
-      }
+      // if (_edge.getSource().equals(_edge.getDestination())) {
+      // continue;
+      // }
 
       if (_edge.getSource().equals(edge.getSource()) &&
           _edge.getDestination().equals(edge.getDestination()))
@@ -106,10 +99,10 @@ public class Graph<T extends Comparable<T>> {
         // check transitivity
         for (Edge<T> __edge : edges) {
           if (__edge.getSource().equals(edge.getSource()) && __edge.getDestination().equals(_edge.getDestination())) {
-
             return true;
           }
         }
+        return false;
       }
     }
     return false;
