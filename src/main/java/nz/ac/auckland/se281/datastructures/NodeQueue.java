@@ -20,13 +20,13 @@ public class NodeQueue<T> extends LinkedList<T> implements Queue<T> {
   @Override
   public int size() {
     Node<T> temp = head;
-    int queue_size = 0;
+    int queueSize = 0;
     while (temp != null) {
-      queue_size++;
+      queueSize++;
       temp = temp.getNext();
     }
 
-    return queue_size;
+    return queueSize;
   }
 
 }

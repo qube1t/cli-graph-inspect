@@ -15,13 +15,13 @@ public class NodeStack<T> extends LinkedList<T> implements Stack<T> {
   @Override
   public int size() {
     Node<T> temp = head;
-    int stack_size = 0;
+    int stackSize = 0;
     while (temp != null) {
-      stack_size++;
+      stackSize++;
       temp = temp.getNext();
     }
 
-    return stack_size;
+    return stackSize;
   }
 
 }
