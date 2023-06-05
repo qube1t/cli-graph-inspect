@@ -30,19 +30,19 @@ public class Graph<T extends Comparable<T>> {
     // T[] verticies_array = verticies.toArray((T[]) new Object[verticies.size()]);
     ArrayList<T> verticies_arraylist = new ArrayList<T>(verticies);
     ArrayList<Edge<T>> edges_arraylist = new ArrayList<Edge<T>>(edges);
-    // edges.toArray(this.edges);
-    // verticies.toArray(this.verticies);
 
     Collections.sort(edges_arraylist, new Comparator<Edge<T>>() {
       @Override
       public int compare(Edge<T> arg0, Edge<T> arg1) {
         int c;
 
-        int s1 = (arg0.getSource()).compareTo(arg1.getSource());
+        // ASSUMING T IS AN INTEGER
 
-        c = arg0.getSource().compareTo(arg1.getSource());
+        c = ((Integer) Integer.parseInt((String) arg0.getSource()))
+            .compareTo(Integer.parseInt((String) arg1.getSource()));
         if (c == 0)
-          c = arg0.getDestination().compareTo(arg1.getDestination());
+          c = ((Integer) Integer.parseInt((String) arg0.getDestination()))
+              .compareTo(Integer.parseInt((String) arg1.getDestination()));
         return c;
       }
     });
@@ -106,16 +106,38 @@ public class Graph<T extends Comparable<T>> {
     return false;
   }
 
+  private Set<T> getNoInDegreeVerticies() {
+    Set<T> noInDegreeVerticies = new HashSet<T>();
+    for (T vertex : verticies) {
+      int indegree = 0;
+      int outdegree = 0;
+      for (Edge<T> edge : edges) {
+        if (edge.getSource().equals(vertex)) {
+          outdegree++;
+        }
+        if (edge.getDestination().equals(vertex)) {
+          indegree++;
+        }
+      }
+
+      if (indegree == 0 && outdegree > 1) {
+        noInDegreeVerticies.add(vertex);
+      }
+    }
+    return noInDegreeVerticies;
+  }
+
   public Set<T> getRoots() {
     // TODO: Task 1.
     // bubbleSortEdges();
 
     // TODO MAKE THIS AN ARRAY !!!!
     Set<T> roots = new HashSet<T>();
+    roots.addAll(getNoInDegreeVerticies());
 
-    if (!isEquivalence()) {
-      throw new UnsupportedOperationException();
-    }
+    // if (!isEquivalence()) {
+    // throw new UnsupportedOperationException();
+    // }
 
     for (Set<T> equivalenceClass : getEquivalenceClasses()) {
       T lowest = null;
@@ -169,8 +191,18 @@ public class Graph<T extends Comparable<T>> {
   }
 
   public boolean isAntiSymmetric() {
-    // TODO: Task 1.
-    throw new UnsupportedOperationException();
+    // check anti-symmetry
+    for (Edge<T> edge : edges) {
+      for (Edge<T> _edge : edges) {
+        if (edge.getSource().equals(_edge.getDestination()) && edge.getDestination().equals(_edge.getSource())) {
+          if (!edge.getSource().equals(edge.getDestination())) {
+            return false;
+          }
+        }
+      }
+    }
+    return true;
+
   }
 
   public boolean isEquivalence() {
@@ -182,12 +214,12 @@ public class Graph<T extends Comparable<T>> {
 
   public Set<Set<T>> getEquivalenceClasses() {
 
-    if (!isEquivalence()) {
-      throw new UnsupportedOperationException();
-    }
-
     Set<T> done = new HashSet<T>();
     Set<Set<T>> equivalenceClasses = new HashSet<Set<T>>();
+
+    if (!isEquivalence()) {
+      return equivalenceClasses;
+    }
 
     for (Edge<T> edge : edges) {
       if (done.contains(edge.getSource()) && done.contains(edge.getDestination())) {
@@ -277,7 +309,53 @@ public class Graph<T extends Comparable<T>> {
     List<T> visited = new ArrayList<T>();
     Stack<T> stack = new nodeStack<T>();
 
-    throw new UnsupportedOperationException();
+    // select a random node
+    T selectedNode = verticies.get(0);
+
+    while (visited.size() < verticies.size()) {
+
+      // checks if selectedNode has been visited
+      boolean isVisited = visited.contains(selectedNode);
+
+      // if selectedNode has been visited, get a new unvisited node
+      while (isVisited) {
+        selectedNode = stack.pop();
+
+        // if queue is empty before removeing, then get a new random
+        if (selectedNode == null) {
+          for (T vertex : verticies) {
+            if (!visited.contains(vertex)) {
+              selectedNode = vertex;
+              break;
+            }
+          }
+        }
+
+        isVisited = visited.contains(selectedNode);
+      }
+
+      // add selectedNode to visited
+      visited.add(selectedNode);
+
+      // reversed order edges
+      Collections.reverse(edges);
+
+      // add all adjacents to queue
+      for (Edge<T> edge : edges) {
+        // ignore self loops
+        if (edge.getSource() == edge.getDestination())
+          continue;
+
+        // add adjacent to queue
+        if (edge.getSource() == selectedNode) {
+          stack.append(edge.getDestination());
+        }
+      }
+
+      Collections.reverse(edges);
+    }
+
+    return visited;
   }
 
   public void breadthFirstSearch(List<T> visited, Queue<T> queue) {
@@ -300,20 +378,13 @@ public class Graph<T extends Comparable<T>> {
       isVisited = visited.contains(selectedNode);
     }
 
-    visited.add(0, selectedNode);
+    visited.add(selectedNode);
 
     for (Edge<T> edge : edges) {
-      if (edge.getSource() == edge.getDestination())
-        continue;
-
       if (edge.getSource() == selectedNode) {
-        // System.out.println(edge);
-        // System.out.println(queue);
+        if (edge.getSource() == edge.getDestination())
+          continue;
         queue.enqueue(edge.getDestination());
-        // } else if (edge.getDestination() == selectedNode) {
-        // // System.out.println(edge);
-        // // System.out.println(queue);
-        // queue.enqueue(edge.getSource());
       }
     }
 
@@ -329,8 +400,6 @@ public class Graph<T extends Comparable<T>> {
 
     breadthFirstSearch(visited, queue);
 
-    // Collections.sort(visited);
-
     return visited;
   }
 
@@ -340,6 +409,7 @@ public class Graph<T extends Comparable<T>> {
 
     while (isVisited) {
       selectedNode = stack.pop();
+      System.out.println(selectedNode);
 
       // if queue is empty before removeing, then get a new random
       if (selectedNode == null) {
@@ -354,26 +424,26 @@ public class Graph<T extends Comparable<T>> {
       isVisited = visited.contains(selectedNode);
     }
 
-    System.out.println(selectedNode);
+    visited.add(selectedNode);
+    System.out.println(visited);
 
-    visited.add(0, selectedNode);
+    Collections.reverse(edges);
 
     for (Edge<T> edge : edges) {
-      if (edge.getSource() == edge.getDestination())
-        continue;
-
       if (edge.getSource() == selectedNode) {
-        System.out.println(stack);
+        if (edge.getSource() == edge.getDestination())
+          continue;
+
         System.out.println(edge);
         stack.append(edge.getDestination());
+        System.out.println(stack);
+
       }
     }
 
-    System.out.println();
+    Collections.reverse(edges);
 
     if (visited.size() < verticies.size()) {
-      System.out.println(stack);
-      System.out.println();
       depthFirstSearch(visited, stack);
     }
 
@@ -384,8 +454,6 @@ public class Graph<T extends Comparable<T>> {
     Stack<T> stack = new nodeStack<T>();
 
     depthFirstSearch(visited, stack);
-
-    // Collections.sort(visited);
 
     return visited;
 
