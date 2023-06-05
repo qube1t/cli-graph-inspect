@@ -17,14 +17,31 @@ public class Edge<T> {
     this.destination = destination;
   }
 
+  /**
+   * Returns source of the edge.
+   * 
+   * @return source of the edge.
+   */
   public T getSource() {
     return source;
   }
 
+  /**
+   * Returns destination of the edge.
+   * 
+   * @return destination of the edge.
+   */
   public T getDestination() {
     return destination;
   }
 
+  /**
+   * Checks equality of two edges.
+   * 
+   * @param edge Edge object to check equality with.
+   * @return Boolean showing equality.
+   */
+  // TODO
   public boolean equals(T s, T d) {
     return (s.equals(source) && d.equals(destination));
   }

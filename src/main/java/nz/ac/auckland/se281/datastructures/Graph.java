@@ -48,8 +48,6 @@ public class Graph<T extends Comparable<T>> {
         return c;
       }
     });
-    System.out.println(verticies_arraylist);
-    System.out.println(edges_arraylist);
 
     this.edges = edges_arraylist;
     this.verticies = verticies_arraylist;
@@ -58,6 +56,12 @@ public class Graph<T extends Comparable<T>> {
 
   }
 
+  /**
+   * Checks if a node is reflexive.
+   * 
+   * @param vertex to check has a reflexive relationship.
+   * @return Boolean showing reflexivity of the node.
+   */
   private boolean isNodeReflexive(T vertex) {
     for (Edge<T> edge : edges) {
       if (edge.getSource().equals(vertex) && edge.getDestination().equals(vertex)) {
@@ -66,6 +70,13 @@ public class Graph<T extends Comparable<T>> {
     }
     return false;
   }
+
+  /**
+   * Checks if the particular edge has symmetry.
+   * 
+   * @param edge Edge object to check symmetry for.
+   * @return Boolean showing symmetry.
+   */
 
   private boolean doesEdgeSymmetryExist(Edge<T> edge) {
     for (Edge<T> _edge : edges) {
@@ -76,6 +87,12 @@ public class Graph<T extends Comparable<T>> {
     return false;
   }
 
+  /**
+   * Checks if the particular edge has transitivity.
+   * 
+   * @param edge Edge object to check transitivity for.
+   * @return Boolean showing transitivity.
+   */
   private boolean doesEdgeTransitivityExist(Edge<T> edge) {
 
     if (edge.getSource().equals(edge.getDestination())) {
@@ -83,11 +100,8 @@ public class Graph<T extends Comparable<T>> {
     }
 
     for (Edge<T> _edge : edges) {
-      // excuse self loops
-      // if (_edge.getSource().equals(_edge.getDestination())) {
-      // continue;
-      // }
 
+      // check if the edge is the same
       if (_edge.getSource().equals(edge.getSource()) &&
           _edge.getDestination().equals(edge.getDestination()))
         continue;
@@ -108,6 +122,11 @@ public class Graph<T extends Comparable<T>> {
     return false;
   }
 
+  /**
+   * Get set of verticies with no in degree, but at least one out degree.
+   * 
+   * @return Set of verticies with no in degree, but at least one out degree.
+   */
   private Set<T> getNoInDegreeVerticies() {
     Set<T> noInDegreeVerticies = new TreeSet<T>();
     for (T vertex : verticies) {
@@ -129,6 +148,11 @@ public class Graph<T extends Comparable<T>> {
     return noInDegreeVerticies;
   }
 
+  /**
+   * Get set of roots of the graph.
+   * 
+   * @return Set of roots of the graph.
+   */
   public TreeSet<T> getRoots() {
     TreeSet<T> roots = new TreeSet<T>(new Comparator<T>() {
       @Override
@@ -137,10 +161,6 @@ public class Graph<T extends Comparable<T>> {
       }
     });
     roots.addAll(getNoInDegreeVerticies());
-
-    // if (!isEquivalence()) {
-    // throw new UnsupportedOperationException();
-    // }
 
     for (Set<T> equivalenceClass : getEquivalenceClasses()) {
       T lowest = null;
@@ -154,11 +174,14 @@ public class Graph<T extends Comparable<T>> {
       roots.add(lowest);
     }
 
-    // }
-    // throw new UnsupportedOperationException();
     return roots;
   }
 
+  /**
+   * Check whether the graph is reflexive.
+   * 
+   * @return Boolean showing reflexivity of the graph.
+   */
   public boolean isReflexive() {
     // check reflexivity
     // TODO make sure there are no ghost verticies
@@ -170,6 +193,11 @@ public class Graph<T extends Comparable<T>> {
     return true;
   }
 
+  /**
+   * Check whether the graph is symmetric.
+   * 
+   * @return Boolean showing symmetry of the graph.
+   */
   public boolean isSymmetric() {
     // check symmetry
     for (Edge<T> edge : edges) {
@@ -181,6 +209,11 @@ public class Graph<T extends Comparable<T>> {
     return true;
   }
 
+  /**
+   * Check whether the graph is transitive.
+   * 
+   * @return Boolean showing transitivity of the graph.
+   */
   public boolean isTransitive() {
     // check transitivity
     for (Edge<T> edge : edges) {
@@ -192,6 +225,11 @@ public class Graph<T extends Comparable<T>> {
     return true;
   }
 
+  /**
+   * Check whether the graph is anti-symmetric.
+   * 
+   * @return Boolean showing anti-symmetry of the graph.
+   */
   public boolean isAntiSymmetric() {
     // check anti-symmetry
     for (Edge<T> edge : edges) {
@@ -207,6 +245,11 @@ public class Graph<T extends Comparable<T>> {
 
   }
 
+  /**
+   * Check whether the graph is an equivalence relation.
+   * 
+   * @return Boolean showing equivalence of the graph.
+   */
   public boolean isEquivalence() {
     if (isReflexive() && isSymmetric() && isTransitive()) {
       return true;
@@ -214,6 +257,11 @@ public class Graph<T extends Comparable<T>> {
     return false;
   }
 
+  /**
+   * Get set of equivalence classes of the graph.
+   * 
+   * @return TreeSet of equivalence classes of the graph sorted numerically.
+   */
   public TreeSet<TreeSet<T>> getEquivalenceClasses() {
 
     Set<T> done = new HashSet<T>();
@@ -258,6 +306,13 @@ public class Graph<T extends Comparable<T>> {
     return equivalenceClasses;
   }
 
+  /**
+   * Get equivalence class of a vertex.
+   * 
+   * @param vertex
+   *               Vertex to get equivalence class of.
+   * @return Set of equivalence class of the vertex.
+   */
   public Set<T> getEquivalenceClass(T vertex) {
     TreeSet<TreeSet<T>> equivalenceClasses = getEquivalenceClasses();
 
@@ -270,6 +325,11 @@ public class Graph<T extends Comparable<T>> {
     return new TreeSet<T>();
   }
 
+  /**
+   * Perform iterative breadth first search on the graph.
+   * 
+   * @return List of the visited verticies in the order they were visited.
+   */
   public List<T> iterativeBreadthFirstSearch() {
 
     List<T> visited = new ArrayList<T>();
@@ -318,6 +378,11 @@ public class Graph<T extends Comparable<T>> {
     return visited;
   }
 
+  /**
+   * Perform iterative depth first search on the graph.
+   * 
+   * @return List of the visited verticies in the order they were visited.
+   */
   public List<T> iterativeDepthFirstSearch() {
     List<T> visited = new ArrayList<T>();
     Stack<T> stack = new nodeStack<T>();
@@ -371,6 +436,12 @@ public class Graph<T extends Comparable<T>> {
     return visited;
   }
 
+  /**
+   * Perform recursive depth first search on the graph.
+   * 
+   * @params visited List of visited verticies.
+   * @params queue Queue of verticies to visit.
+   */
   public void breadthFirstSearch(List<T> visited, Queue<T> queue) {
     T selectedNode = null;
     boolean isVisited = true;
@@ -404,9 +475,13 @@ public class Graph<T extends Comparable<T>> {
     if (visited.size() < verticies.size()) {
       breadthFirstSearch(visited, queue);
     }
-
   }
 
+  /**
+   * Initiate recursive breadth first search on the graph.
+   * 
+   * @return List of the visited verticies in the order they were visited.
+   */
   public List<T> recursiveBreadthFirstSearch() {
     List<T> visited = new ArrayList<T>();
     Queue<T> queue = new nodeQueue<T>();
@@ -418,6 +493,12 @@ public class Graph<T extends Comparable<T>> {
     return visited;
   }
 
+  /**
+   * Perform recursive depth first search on the graph.
+   * 
+   * @params visited List of visited verticies.
+   * @params stack Stack of verticies to visit.
+   */
   private void depthFirstSearch(List<T> visited, Stack<T> stack) {
     T selectedNode = null;
     boolean isVisited = true;
@@ -440,8 +521,8 @@ public class Graph<T extends Comparable<T>> {
     }
 
     visited.add(selectedNode);
-    System.out.println(visited);
 
+    // add all adjacents to stack after reversing numerical order
     Collections.reverse(edges);
 
     for (Edge<T> edge : edges) {
@@ -449,10 +530,7 @@ public class Graph<T extends Comparable<T>> {
         if (edge.getSource() == edge.getDestination())
           continue;
 
-        System.out.println(edge);
         stack.append(edge.getDestination());
-        System.out.println(stack);
-
       }
     }
 
@@ -464,6 +542,11 @@ public class Graph<T extends Comparable<T>> {
 
   }
 
+  /**
+   * Initiate recursive depth first search on the graph.
+   * 
+   * @return List of the visited verticies in the order they were visited.
+   */
   public List<T> recursiveDepthFirstSearch() {
     List<T> visited = new ArrayList<T>();
     Stack<T> stack = new nodeStack<T>();
