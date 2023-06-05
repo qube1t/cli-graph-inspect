@@ -4,11 +4,13 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashSet;
+import java.util.TreeSet;
 // import java.util.ArrayList;
 // import java.util.Collection;
 // import java.util.Collections;
 import java.util.List;
 import java.util.Set;
+import java.util.TreeSet;
 
 /**
  * A graph that is composed of a set of verticies and edges.
@@ -30,6 +32,13 @@ public class Graph<T extends Comparable<T>> {
     // T[] verticies_array = verticies.toArray((T[]) new Object[verticies.size()]);
     ArrayList<T> verticies_arraylist = new ArrayList<T>(verticies);
     ArrayList<Edge<T>> edges_arraylist = new ArrayList<Edge<T>>(edges);
+
+    Collections.sort(verticies_arraylist, new Comparator<T>() {
+      @Override
+      public int compare(T arg0, T arg1) {
+        return ((Integer) Integer.parseInt((String) arg0)).compareTo(Integer.parseInt((String) arg1));
+      }
+    });
 
     Collections.sort(edges_arraylist, new Comparator<Edge<T>>() {
       @Override
@@ -107,7 +116,7 @@ public class Graph<T extends Comparable<T>> {
   }
 
   private Set<T> getNoInDegreeVerticies() {
-    Set<T> noInDegreeVerticies = new HashSet<T>();
+    Set<T> noInDegreeVerticies = new TreeSet<T>();
     for (T vertex : verticies) {
       int indegree = 0;
       int outdegree = 0;
@@ -120,19 +129,20 @@ public class Graph<T extends Comparable<T>> {
         }
       }
 
-      if (indegree == 0 && outdegree > 1) {
+      if (indegree == 0 && outdegree >= 1) {
         noInDegreeVerticies.add(vertex);
       }
     }
     return noInDegreeVerticies;
   }
 
-  public Set<T> getRoots() {
-    // TODO: Task 1.
-    // bubbleSortEdges();
-
-    // TODO MAKE THIS AN ARRAY !!!!
-    Set<T> roots = new HashSet<T>();
+  public TreeSet<T> getRoots() {
+    TreeSet<T> roots = new TreeSet<T>(new Comparator<T>() {
+      @Override
+      public int compare(T arg0, T arg1) {
+        return ((Integer) Integer.parseInt((String) arg0)).compareTo(Integer.parseInt((String) arg1));
+      }
+    });
     roots.addAll(getNoInDegreeVerticies());
 
     // if (!isEquivalence()) {
@@ -154,7 +164,6 @@ public class Graph<T extends Comparable<T>> {
     // }
     // throw new UnsupportedOperationException();
     return roots;
-    // TODO return in order??
   }
 
   public boolean isReflexive() {
@@ -212,10 +221,15 @@ public class Graph<T extends Comparable<T>> {
     return false;
   }
 
-  public Set<Set<T>> getEquivalenceClasses() {
+  public TreeSet<TreeSet<T>> getEquivalenceClasses() {
 
     Set<T> done = new HashSet<T>();
-    Set<Set<T>> equivalenceClasses = new HashSet<Set<T>>();
+    TreeSet<TreeSet<T>> equivalenceClasses = new TreeSet<TreeSet<T>>(new Comparator<TreeSet<T>>() {
+      @Override
+      public int compare(TreeSet<T> arg0, TreeSet<T> arg1) {
+        return ((Integer) Integer.parseInt((String) arg0.first())).compareTo(Integer.parseInt((String) arg1.first()));
+      }
+    });
 
     if (!isEquivalence()) {
       return equivalenceClasses;
@@ -226,7 +240,13 @@ public class Graph<T extends Comparable<T>> {
         continue;
       }
 
-      Set<T> equivalenceClass = new HashSet<T>();
+      TreeSet<T> equivalenceClass = new TreeSet<T>(new Comparator<T>() {
+        @Override
+        public int compare(T arg0, T arg1) {
+          return ((Integer) Integer.parseInt((String) arg0)).compareTo(Integer.parseInt((String) arg1));
+        }
+      });
+
       equivalenceClass.add(edge.getSource());
       equivalenceClass.add(edge.getDestination());
 
@@ -246,7 +266,7 @@ public class Graph<T extends Comparable<T>> {
   }
 
   public Set<T> getEquivalenceClass(T vertex) {
-    Set<Set<T>> equivalenceClasses = getEquivalenceClasses();
+    TreeSet<TreeSet<T>> equivalenceClasses = getEquivalenceClasses();
 
     for (Set<T> equivalenceClass : equivalenceClasses) {
       if (equivalenceClass.contains(vertex)) {
@@ -254,7 +274,7 @@ public class Graph<T extends Comparable<T>> {
       }
     }
 
-    return new HashSet<T>();
+    return new TreeSet<T>();
   }
 
   public List<T> iterativeBreadthFirstSearch() {
@@ -263,7 +283,7 @@ public class Graph<T extends Comparable<T>> {
     Queue<T> queue = new nodeQueue<T>();
 
     // select a random node
-    T selectedNode = verticies.get(0);
+    T selectedNode = getRoots().size() == 0 ? verticies.get(0) : ((TreeSet<T>) getRoots()).first();
 
     while (visited.size() < verticies.size()) {
 
@@ -310,7 +330,7 @@ public class Graph<T extends Comparable<T>> {
     Stack<T> stack = new nodeStack<T>();
 
     // select a random node
-    T selectedNode = verticies.get(0);
+    T selectedNode = getRoots().size() == 0 ? verticies.get(0) : ((TreeSet<T>) getRoots()).first();
 
     while (visited.size() < verticies.size()) {
 
@@ -398,6 +418,8 @@ public class Graph<T extends Comparable<T>> {
     List<T> visited = new ArrayList<T>();
     Queue<T> queue = new nodeQueue<T>();
 
+    queue.enqueue(getRoots().size() == 0 ? verticies.get(0) : (getRoots()).first());
+
     breadthFirstSearch(visited, queue);
 
     return visited;
@@ -452,6 +474,8 @@ public class Graph<T extends Comparable<T>> {
   public List<T> recursiveDepthFirstSearch() {
     List<T> visited = new ArrayList<T>();
     Stack<T> stack = new nodeStack<T>();
+
+    stack.append(getRoots().size() == 0 ? verticies.get(0) : ((TreeSet<T>) getRoots()).first());
 
     depthFirstSearch(visited, stack);
 
