@@ -79,8 +79,8 @@ public class Graph<T extends Comparable<T>> {
    */
 
   private boolean doesEdgeSymmetryExist(Edge<T> edge) {
-    for (Edge<T> edge_ : edges) {
-      if (edge_.getSource().equals(edge.getDestination()) && edge_.getDestination().equals(edge.getSource())) {
+    for (Edge<T> edge1 : edges) {
+      if (edge1.getSource().equals(edge.getDestination()) && edge1.getDestination().equals(edge.getSource())) {
         return true;
       }
     }
@@ -99,20 +99,21 @@ public class Graph<T extends Comparable<T>> {
       return true;
     }
 
-    for (Edge<T> edge_ : edges) {
+    for (Edge<T> edge1 : edges) {
 
       // check if the edge is the same
-      if (edge_.getSource().equals(edge.getSource()) &&
-          edge_.getDestination().equals(edge.getDestination()))
+      if (edge1.getSource().equals(edge.getSource()) &&
+          edge1.getDestination().equals(edge.getDestination())) {
         continue;
+      }
 
       // check if a case requiring transitivity exists
-      if (edge_.getSource().equals(edge.getDestination()) &&
-          !edge_.getDestination().equals(edge.getSource())) {
+      if (edge1.getSource().equals(edge.getDestination()) &&
+          !edge1.getDestination().equals(edge.getSource())) {
 
         // check transitivity
-        for (Edge<T> edge__ : edges) {
-          if (edge__.getSource().equals(edge.getSource()) && edge__.getDestination().equals(edge_.getDestination())) {
+        for (Edge<T> edge2 : edges) {
+          if (edge2.getSource().equals(edge.getSource()) && edge2.getDestination().equals(edge1.getDestination())) {
             return true;
           }
         }
@@ -186,6 +187,7 @@ public class Graph<T extends Comparable<T>> {
    * Check whether the graph is reflexive.
    * 
    * @return Boolean showing reflexivity of the graph.
+   * 
    */
   public boolean isReflexive() {
     // check reflexivity
@@ -238,8 +240,8 @@ public class Graph<T extends Comparable<T>> {
   public boolean isAntiSymmetric() {
     // check anti-symmetry
     for (Edge<T> edge : edges) {
-      for (Edge<T> edge_ : edges) {
-        if (edge.getSource().equals(edge_.getDestination()) && edge.getDestination().equals(edge_.getSource())) {
+      for (Edge<T> edge1 : edges) {
+        if (edge.getSource().equals(edge1.getDestination()) && edge.getDestination().equals(edge1.getSource())) {
           if (!edge.getSource().equals(edge.getDestination())) {
             return false;
           }
@@ -297,9 +299,9 @@ public class Graph<T extends Comparable<T>> {
       equivalenceClass.add(edge.getDestination());
 
       // add destination of all edges with the given source
-      for (Edge<T> edge_ : edges) {
-        if (edge_.getSource().equals(edge.getSource()) && !edge_.getDestination().equals(edge.getDestination())) {
-          equivalenceClass.add(edge_.getDestination());
+      for (Edge<T> edge1 : edges) {
+        if (edge1.getSource().equals(edge.getSource()) && !edge1.getDestination().equals(edge.getDestination())) {
+          equivalenceClass.add(edge1.getDestination());
         }
       }
 
@@ -373,8 +375,9 @@ public class Graph<T extends Comparable<T>> {
       // add all adjacents to queue
       for (Edge<T> edge : edges) {
         // ignore self loops
-        if (edge.getSource() == edge.getDestination())
+        if (edge.getSource() == edge.getDestination()) {
           continue;
+        }
 
         // add adjacent to queue
         if (edge.getSource() == selectedNode) {
