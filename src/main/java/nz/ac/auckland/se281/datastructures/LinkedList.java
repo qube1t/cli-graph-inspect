@@ -1,8 +1,8 @@
 package nz.ac.auckland.se281.datastructures;
 
 public abstract class LinkedList<T> {
-    Node<T> head = null;
-    Node<T> tail = null;
+    protected Node<T> head = null;
+    protected Node<T> tail = null;
 
     public void append(T item) {
         if (head == null) {

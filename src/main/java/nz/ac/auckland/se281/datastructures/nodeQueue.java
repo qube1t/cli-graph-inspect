@@ -1,12 +1,7 @@
 package nz.ac.auckland.se281.datastructures;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class nodeQueue<T> extends LinkedList<T> implements Queue<T> {
     // List<T> queue = new ArrayList<T>();
-    Node<T> head = null;
-    Node<T> tail = null;
 
     @Override
     public void enqueue(T item) {
@@ -22,7 +17,12 @@ public class nodeQueue<T> extends LinkedList<T> implements Queue<T> {
 
         T temp = head.getData();
         head = head.getNext();
-        head.setPrev(null);
+
+        if (head != null)
+            head.setPrev(null);
+        else
+            tail = null;
+
         return temp;
     }
 

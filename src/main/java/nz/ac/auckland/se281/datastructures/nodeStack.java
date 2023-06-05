@@ -2,8 +2,6 @@ package nz.ac.auckland.se281.datastructures;
 
 public class nodeStack<T> extends LinkedList<T> implements Stack<T> {
     // List<T> stack = new ArrayList<T>();
-    Node<T> head = null;
-    Node<T> tail = null;
 
     // @Override
     // public void push(T item) {
@@ -27,7 +25,12 @@ public class nodeStack<T> extends LinkedList<T> implements Stack<T> {
 
         T temp = tail.getData();
         tail = tail.getPrev();
-        tail.setNext(null);
+
+        if (tail != null)
+            tail.setNext(null);
+        else
+            head = null;
+
         return temp;
     }
 
