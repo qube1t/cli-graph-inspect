@@ -1,5 +1,10 @@
 package nz.ac.auckland.se281.datastructures;
 
+/**
+ * A node queue data structure extending LinkedList and implementing Queue.
+ *
+ * @param <T> The type of each item.
+ */
 public class NodeQueue<T> extends LinkedList<T> implements Queue<T> {
 
   @Override

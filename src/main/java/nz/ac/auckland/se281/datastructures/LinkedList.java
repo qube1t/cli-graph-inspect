@@ -1,9 +1,19 @@
 package nz.ac.auckland.se281.datastructures;
 
+/**
+ * A linked list data structure.
+ *
+ * @param <T> The type of each item.
+ */
 public abstract class LinkedList<T> {
   protected Node<T> head = null;
   protected Node<T> tail = null;
 
+  /**
+   * Appends an item to the end of the list.
+   *
+   * @param item Item to be appended.
+   */
   public void append(T item) {
     // empty list; set head and tail as new node
     if (head == null) {
@@ -19,6 +29,11 @@ public abstract class LinkedList<T> {
     tail = newitem;
   }
 
+  /**
+   * Removes an item at the start of the list.
+   *
+   * @return element that was removed.
+   */
   public T removeFirst() {
     // empty queue returns null
     if (head == null) {
@@ -38,6 +53,11 @@ public abstract class LinkedList<T> {
     return temp;
   }
 
+  /**
+   * Removes an item at the end of the list.
+   *
+   * @return element that was removed.
+   */
   public T removeLast() {
     // empty list returns null
     if (tail == null) {
@@ -63,8 +83,8 @@ public abstract class LinkedList<T> {
 
   /**
    * Converts the edge to a string.
-   * 
-   * 
+   *
+   *
    * @return Returns string that can be printed.
    */
   public String toString() {

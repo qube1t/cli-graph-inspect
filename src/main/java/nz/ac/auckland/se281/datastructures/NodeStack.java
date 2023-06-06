@@ -1,5 +1,10 @@
 package nz.ac.auckland.se281.datastructures;
 
+/**
+ * A node stack data structure extending LinkedList and implementing Stack.
+ *
+ * @param <T> The type of each item.
+ */
 public class NodeStack<T> extends LinkedList<T> implements Stack<T> {
 
   @Override
