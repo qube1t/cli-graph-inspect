@@ -5,7 +5,7 @@ import java.util.*;
 /**
  * A graph that is composed of a set of verticies and edges.
  *
- * <p>You must NOT change the signature of the existing methods or constructor of
+ * You must NOT change the signature of the existing methods or constructor of
  * this class.
  *
  * @param <T> The type of each vertex, that have a total ordering.
@@ -329,9 +329,6 @@ public class Graph<T extends Comparable<T>> {
       }
 
       done.addAll(equivalenceClass);
-      // TODO is adding needed
-      done.add(edge.getSource());
-      done.add(edge.getDestination());
       equivalenceClasses.add(equivalenceClass);
     }
 
@@ -547,7 +544,6 @@ public class Graph<T extends Comparable<T>> {
 
     while (isVisited) {
       selectedNode = stack.pop();
-      System.out.println(selectedNode);
 
       // if queue is empty before removeing, then get a new random
       if (selectedNode == null) {
