@@ -19,7 +19,7 @@ public class Edge<T> {
 
   /**
    * Returns source of the edge.
-   * 
+   *
    * @return source of the edge.
    */
   public T getSource() {
@@ -28,7 +28,7 @@ public class Edge<T> {
 
   /**
    * Returns destination of the edge.
-   * 
+   *
    * @return destination of the edge.
    */
   public T getDestination() {
@@ -37,13 +37,25 @@ public class Edge<T> {
 
   /**
    * Checks equality of two edges.
-   * 
+   *
    * @param edge Edge object to check equality with.
    * @return Boolean showing equality.
    */
-  // TODO
-  public boolean equals(T s, T d) {
-    return (s.equals(source) && d.equals(destination));
+  public boolean equals(Edge<T> edge) {
+    if (edge == this) {
+      return true;
+    }
+    if (edge == null) {
+      return false;
+    }
+    if (edge.getClass() != this.getClass()) {
+      return false;
+    }
+    if (edge.getSource() == this.getSource() && edge.getDestination() == this.getDestination()) {
+      return true;
+    }
+    return false;
+
   }
 
   public String toString() {
