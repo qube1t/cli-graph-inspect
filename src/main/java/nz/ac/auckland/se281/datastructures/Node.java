@@ -15,7 +15,7 @@ public class Node<T> {
   }
 
   /**
-   * Returns the next node.
+   * Next node is return to the requester.
    *
    * @return the next node.
    */
@@ -24,7 +24,7 @@ public class Node<T> {
   }
 
   /**
-   * Returns the previous node.
+   * Previous node is supplied to the requester.
    *
    * @return the previous node.
    */

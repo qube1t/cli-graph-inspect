@@ -3,8 +3,7 @@ package nz.ac.auckland.se281.datastructures;
 /**
  * An edge in a graph that connects two verticies.
  *
- * <p>
- * You must NOT change the signature of the constructor of this class.
+ * <p>You must NOT change the signature of the constructor of this class.
  *
  * @param <T> The type of each vertex.
  */
@@ -43,15 +42,19 @@ public class Edge<T> {
    */
   public boolean equals(Edge<T> edge) {
     if (edge == this) {
+      // if the object is compared with itself then return true
       return true;
     }
     if (edge == null) {
+      // if the object is compared with null then
       return false;
     }
     if (edge.getClass() != this.getClass()) {
+      // if the object is not of the same class then
       return false;
     }
     if (edge.getSource() == this.getSource() && edge.getDestination() == this.getDestination()) {
+      // if source and destination are the same then
       return true;
     }
     return false;

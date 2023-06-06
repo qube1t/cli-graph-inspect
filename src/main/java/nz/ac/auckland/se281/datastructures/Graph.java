@@ -1,18 +1,11 @@
 package nz.ac.auckland.se281.datastructures;
 
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Set;
-import java.util.List;
-import java.util.HashSet;
-import java.util.ArrayList;
-import java.util.TreeSet;
+import java.util.*;
 
 /**
  * A graph that is composed of a set of verticies and edges.
  *
- * <p>
- * You must NOT change the signature of the existing methods or constructor of
+ * <p>You must NOT change the signature of the existing methods or constructor of
  * this class.
  *
  * @param <T> The type of each vertex, that have a total ordering.
@@ -35,7 +28,8 @@ public class Graph<T extends Comparable<T>> {
     Collections.sort(verticiesArrayList, new Comparator<T>() {
       @Override
       public int compare(T arg0, T arg1) {
-        return ((Integer) Integer.parseInt((String) arg0)).compareTo(Integer.parseInt((String) arg1));
+        return ((Integer) Integer.parseInt((String) arg0))
+            .compareTo(Integer.parseInt((String) arg1));
       }
     });
 
@@ -114,14 +108,14 @@ public class Graph<T extends Comparable<T>> {
     for (Edge<T> edge1 : edges) {
 
       // check if the edge is the same
-      if (edge1.getSource().equals(edge.getSource()) &&
-          edge1.getDestination().equals(edge.getDestination())) {
+      if (edge1.getSource().equals(edge.getSource())
+          && edge1.getDestination().equals(edge.getDestination())) {
         continue;
       }
 
       // check if a case requiring transitivity exists
-      if (edge1.getSource().equals(edge.getDestination()) &&
-          !edge1.getDestination().equals(edge.getSource())) {
+      if (edge1.getSource().equals(edge.getDestination())
+          && !edge1.getDestination().equals(edge.getSource())) {
 
         // check transitivity
         for (Edge<T> edge2 : edges) {
@@ -300,7 +294,8 @@ public class Graph<T extends Comparable<T>> {
     TreeSet<TreeSet<T>> equivalenceClasses = new TreeSet<TreeSet<T>>(new Comparator<TreeSet<T>>() {
       @Override
       public int compare(TreeSet<T> arg0, TreeSet<T> arg1) {
-        return ((Integer) Integer.parseInt((String) arg0.first())).compareTo(Integer.parseInt((String) arg1.first()));
+        return ((Integer) Integer.parseInt((String) arg0.first()))
+            .compareTo(Integer.parseInt((String) arg1.first()));
       }
     });
 
@@ -317,7 +312,8 @@ public class Graph<T extends Comparable<T>> {
       TreeSet<T> equivalenceClass = new TreeSet<T>(new Comparator<T>() {
         @Override
         public int compare(T arg0, T arg1) {
-          return ((Integer) Integer.parseInt((String) arg0)).compareTo(Integer.parseInt((String) arg1));
+          return ((Integer) Integer.parseInt((String) arg0))
+              .compareTo(Integer.parseInt((String) arg1));
         }
       });
 
@@ -326,7 +322,8 @@ public class Graph<T extends Comparable<T>> {
 
       // add destination of all edges with the given source
       for (Edge<T> edge1 : edges) {
-        if (edge1.getSource().equals(edge.getSource()) && !edge1.getDestination().equals(edge.getDestination())) {
+        if (edge1.getSource().equals(edge.getSource())
+            && !edge1.getDestination().equals(edge.getDestination())) {
           equivalenceClass.add(edge1.getDestination());
         }
       }
@@ -507,8 +504,9 @@ public class Graph<T extends Comparable<T>> {
 
     for (Edge<T> edge : edges) {
       if (edge.getSource() == selectedNode) {
-        if (edge.getSource() == edge.getDestination())
+        if (edge.getSource() == edge.getDestination()) {
           continue;
+        }
         queue.enqueue(edge.getDestination());
       }
     }
