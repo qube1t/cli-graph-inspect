@@ -105,29 +105,40 @@ public class Graph<T extends Comparable<T>> {
       return true;
     }
 
+    // status for whether transitivity exists for all combinations of this edge
+    boolean status = false;
+
     for (Edge<T> edge1 : edges) {
 
       // check if the edge is the same
-      if (edge1.getSource().equals(edge.getSource())
-          && edge1.getDestination().equals(edge.getDestination())) {
+      if (edge1.equals(edge)) {
         continue;
       }
 
       // check if a case requiring transitivity exists
-      if (edge1.getSource().equals(edge.getDestination())
-          && !edge1.getDestination().equals(edge.getSource())) {
-
+      if (edge1.getSource().equals(edge.getDestination())) {
+        // status for whether transitivity exists for this combination
+        boolean status1 = false;
         // check transitivity
         for (Edge<T> edge2 : edges) {
+
           if (edge2.getSource().equals(edge.getSource())
               && edge2.getDestination().equals(edge1.getDestination())) {
-            return true;
+            // edge between the source of edge and the destination of edge1
+            status1 = true;
           }
         }
-        return false;
+
+        if (!status1) {
+          // if transitivity does not exist for this combination, return false
+          return false;
+        } else {
+          // transitivity exists for this combination but might not exist for all
+          status = true;
+        }
       }
     }
-    return false;
+    return status;
   }
 
   /**
