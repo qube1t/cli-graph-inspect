@@ -45,11 +45,11 @@ public abstract class LinkedList<T> {
     head = head.getNext();
 
     // if there is only element in the queue
-    if (head != null)
+    if (head != null) {
       head.setPrev(null);
-    else
+    } else {
       tail = null;
-
+    }
     return temp;
   }
 
@@ -69,10 +69,11 @@ public abstract class LinkedList<T> {
     tail = tail.getPrev();
 
     // if there is only element in the list
-    if (tail != null)
+    if (tail != null) {
       tail.setNext(null);
-    else
+    } else {
       head = null;
+    }
 
     return temp;
   }
@@ -94,8 +95,9 @@ public abstract class LinkedList<T> {
     str.append("[");
     while (temp != null) {
       str.append(temp.getData());
-      str.append(", ");
       temp = temp.getNext();
+      if (temp != null)
+        str.append(", ");
     }
     str.append("]");
 

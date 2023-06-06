@@ -44,7 +44,7 @@ public class Node<T> {
   /**
    * Sets the data of the next node.
    *
-   * @param data the data of the next node.
+   * @param next the data of the next node.
    */
   public void setNext(Node<T> next) {
     this.next = next;
@@ -53,7 +53,7 @@ public class Node<T> {
   /**
    * Sets the data of the previous node.
    *
-   * @param data the data of the previous node.
+   * @param prev the data of the previous node.
    */
   public void setPrev(Node<T> prev) {
     this.prev = prev;

@@ -3,10 +3,10 @@ package nz.ac.auckland.se281.datastructures;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.HashSet;
 import java.util.TreeSet;
-import java.util.List;
-import java.util.ArrayList;
 
 /**
  * A graph that is composed of a set of verticies and edges.
@@ -17,7 +17,6 @@ import java.util.ArrayList;
  *
  * @param <T> The type of each vertex, that have a total ordering.
  */
-
 public class Graph<T extends Comparable<T>> {
   private ArrayList<T> verticies;
   private ArrayList<Edge<T>> edges;
@@ -82,7 +81,6 @@ public class Graph<T extends Comparable<T>> {
    *
    * @return Boolean showing symmetry.
    */
-
   private boolean doesEdgeSymmetryExist(Edge<T> edge) {
     for (Edge<T> edge1 : edges) {
       if (edge1.getSource().equals(edge.getDestination()) && edge1.getDestination().equals(edge.getSource())) {
