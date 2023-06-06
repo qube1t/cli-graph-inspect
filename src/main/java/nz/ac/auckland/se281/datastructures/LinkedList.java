@@ -89,15 +89,20 @@ public abstract class LinkedList<T> {
    * @return Returns string that can be printed.
    */
   public String toString() {
+    // using string builder to build the string
     Node<T> temp = head;
     StringBuilder str = new StringBuilder();
 
+    // iterate through the list to print
     str.append("[");
     while (temp != null) {
       str.append(temp.getData());
       temp = temp.getNext();
-      if (temp != null)
+
+      // add comma if not last element
+      if (temp != null) {
         str.append(", ");
+      }
     }
     str.append("]");
 

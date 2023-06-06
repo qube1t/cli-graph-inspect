@@ -3,9 +3,9 @@ package nz.ac.auckland.se281.datastructures;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Set;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.HashSet;
+import java.util.ArrayList;
 import java.util.TreeSet;
 
 /**
@@ -21,6 +21,12 @@ public class Graph<T extends Comparable<T>> {
   private ArrayList<T> verticies;
   private ArrayList<Edge<T>> edges;
 
+  /**
+   * Constructs a graph with the given verticies and edges.
+   *
+   * @param verticies The verticies of the graph.
+   * @param edges     The edges of the graph.
+   */
   public Graph(Set<T> verticies, Set<Edge<T>> edges) {
 
     ArrayList<T> verticiesArrayList = new ArrayList<T>(verticies);
@@ -83,7 +89,8 @@ public class Graph<T extends Comparable<T>> {
    */
   private boolean doesEdgeSymmetryExist(Edge<T> edge) {
     for (Edge<T> edge1 : edges) {
-      if (edge1.getSource().equals(edge.getDestination()) && edge1.getDestination().equals(edge.getSource())) {
+      if (edge1.getSource().equals(edge.getDestination())
+          && edge1.getDestination().equals(edge.getSource())) {
         return true;
       }
     }
@@ -118,7 +125,8 @@ public class Graph<T extends Comparable<T>> {
 
         // check transitivity
         for (Edge<T> edge2 : edges) {
-          if (edge2.getSource().equals(edge.getSource()) && edge2.getDestination().equals(edge1.getDestination())) {
+          if (edge2.getSource().equals(edge.getSource())
+              && edge2.getDestination().equals(edge1.getDestination())) {
             return true;
           }
         }
@@ -136,18 +144,25 @@ public class Graph<T extends Comparable<T>> {
    */
   private Set<T> getNoInDegreeVerticies() {
     Set<T> noInDegreeVerticies = new TreeSet<T>();
+
+    // iterate through all verticies
     for (T vertex : verticies) {
       int indegree = 0;
       int outdegree = 0;
+
+      // iterate through all edges
       for (Edge<T> edge : edges) {
         if (edge.getSource().equals(vertex)) {
+          // if source of edge is vertex, increment outdegree
           outdegree++;
         }
         if (edge.getDestination().equals(vertex)) {
+          // if destination of edge is vertex, increment indegree
           indegree++;
         }
       }
 
+      // check requirements
       if (indegree == 0 && outdegree >= 1) {
         noInDegreeVerticies.add(vertex);
       }
@@ -166,7 +181,8 @@ public class Graph<T extends Comparable<T>> {
     TreeSet<T> roots = new TreeSet<T>(new Comparator<T>() {
       @Override
       public int compare(T arg0, T arg1) {
-        return ((Integer) Integer.parseInt((String) arg0)).compareTo(Integer.parseInt((String) arg1));
+        return ((Integer) Integer.parseInt((String) arg0))
+            .compareTo(Integer.parseInt((String) arg1));
       }
     });
 
@@ -226,7 +242,6 @@ public class Graph<T extends Comparable<T>> {
   /**
    * Check whether the graph is transitive.
    *
-   *
    * @return Boolean showing transitivity of the graph.
    */
   public boolean isTransitive() {
@@ -249,7 +264,8 @@ public class Graph<T extends Comparable<T>> {
     // check anti-symmetry
     for (Edge<T> edge : edges) {
       for (Edge<T> edge1 : edges) {
-        if (edge.getSource().equals(edge1.getDestination()) && edge.getDestination().equals(edge1.getSource())) {
+        if (edge.getSource().equals(edge1.getDestination())
+            && edge.getDestination().equals(edge1.getSource())) {
           if (!edge.getSource().equals(edge.getDestination())) {
             return false;
           }
