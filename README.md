@@ -1,5 +1,5 @@
 
-# Assignment 3
+# Graph Inspect
 
-You will find instructions for this assignment on the course website.
+Inspect graphs in DOT format. 
 
